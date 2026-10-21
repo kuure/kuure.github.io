@@ -1,5 +1,5 @@
 // where we want to put our formatted output
-const output = document.querySelector(".container");
+const outputContainer = document.querySelector(".container");
 
 
 
