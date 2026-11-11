@@ -1,6 +1,9 @@
 // the hourly forecast API for east lansing, MI
 const url = 'https://api.weather.gov/gridpoints/GRR/82,39/forecast/hourly';
 
+// made-up API key for example:
+const apiKey = 'MYAPIKEYKEEPTHISSECRET';
+//
 // the container in the html
 const container = document.querySelector('.weather');
 
@@ -12,6 +15,9 @@ async function weatherApp() {
 	// call the getData() function to retrieve JSON from the URL above
 	// and store it in the variable 'data'
 	const data = await getData(url);
+	// if you have an api key:
+	//const data = await getData(url,apiKey);
+
 	// pass the returned data to the processData() function and store it
 	// in a variable named "result"
 	const result = processData(data);
@@ -21,7 +27,6 @@ async function weatherApp() {
 
 // this function takes the JSON data and formats it
 function processData(dataArray) {
-	console.log(dataArray.properties.periods[0].shortForecast);
 	const today = dataArray.properties.periods[0];
 
 	// set up a variable to be given a value later
@@ -44,8 +49,10 @@ function processData(dataArray) {
 	// for the "style" value, the temp value and temp units
 	const formattedData = `
 	<div class="${style}">
-		Temp is ${today.temperature}${today.temperatureUnit}
+		<p>Temp is ${today.temperature}${today.temperatureUnit}</p>
+		<p>Forecast: ${today.shortForecast}</p>
 	</div>
+
 	`;
 
 	// hand that block of html back to whatever called this function
@@ -55,7 +62,7 @@ function processData(dataArray) {
 // this is a helper function that retrieves the remote data,
 // then passes it back as "live" JSON data to whatever called it
 // you can ignore this, just know that the weatherApp() function calls it
-async function fetchJson(dataUrl, apiKey) {
+async function getData(dataUrl, apiKey) {
 	const headers = { Accept: 'application/json' };
 
 	// if you need an api key...
